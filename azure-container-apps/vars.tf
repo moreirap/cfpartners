@@ -14,16 +14,6 @@ variable "location" {
   default = "uksouth"
 }
 
-/* # The ID in the output "cfpartners_service_principal_id" in the section above
-variable "cfpartners_app_service_principal_id" {
-    type = string
-} */
-
-# The ID in the output "cfpartners_service_principal_object_id" in the section above
-variable "cfpartners_service_principal_id" {
-  type = string
-}
-
 # GitHub Repo name
 variable "github_repo_name" {
   type        = string
@@ -34,4 +24,18 @@ variable "github_repo_name" {
 variable "github_token" {
   type      = string
   sensitive = true
+}
+
+# Container Registry ID
+variable "cfpartners_azurerm_container_registry_id" {
+  type = string
+}
+
+# Container Registry Login Server
+variable "cfpartners_azurerm_container_registry_loginserver" {
+  type = string
+}
+# The ID in the output "cfpartners_service_principal_object_id" in the section above
+variable "cfpartners_service_principal_id" {
+  type = string
 }

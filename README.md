@@ -28,6 +28,8 @@ The folders **setup_azure_for_terraform** and **setup-azure-container-registry**
 * A storage account intended to hold terraform state
 
 These terraform modules also store important secrets in GitHub, to allow access to Azure resources from within GitHub and when implementing CI/CD.
+In order to be able to login and create secrets in GitHub, you'd have first to create a personal access token.
+This token will then be passed on to terraform as a variable (as seen below) or can be entered interactively if you'd prefer.
 
 These modules should be executed in the order and using vars provided in **cfpartnersdev.tfvars **
 
@@ -35,8 +37,8 @@ These modules should be executed in the order and using vars provided in **cfpar
 cd setup-azure-container-registry
 terraform init
 terraform fmt
-terraform plan -var-file=../cfpartnersdev.tfvars
-terraform apply -var-file=../cfpartnersdev.tfvars
+terraform plan -var-file=../cfpartnersdev.tfvars -var='github_token=<YOUR_GITHUB_TOKEN>'
+terraform apply -var-file=../cfpartnersdev.tfvars -var='github_token=<YOUR_GITHUB_TOKEN>'
 ```
 
 Note that you'd have to manually update value of **cfpartners_service_principal_id** in **terraform.tfvars** using output value returned in previous script and before executing next script.
@@ -45,8 +47,8 @@ Note that you'd have to manually update value of **cfpartners_service_principal_
 cd setup-azure-container-registry
 terraform init
 terraform fmt
-terraform plan -var-file=../cfpartnersdev.tfvars
-terraform apply -var-file=../cfpartnersdev.tfvars
+terraform plan -var-file=../cfpartnersdev.tfvars -var='github_token=<YOUR_GITHUB_TOKEN>'
+terraform apply -var-file=../cfpartnersdev.tfvars -var='github_token=<YOUR_GITHUB_TOKEN>'
 ```
 
 # Security Considerations
