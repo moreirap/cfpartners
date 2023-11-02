@@ -1,0 +1,28 @@
+name: Build db docker image and push to Azure Registry
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: 'Build and push image'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}  
+    
+    - run: |
+        docker image build . --file database/Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners_dbcontainer:latest
+    - run: |
+        docker image build . --file webapp/Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners_webappcontainer:latest
