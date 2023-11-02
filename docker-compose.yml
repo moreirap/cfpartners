@@ -1,0 +1,42 @@
+version: '3'
+services:
+  db:
+    build: 
+      context: ./database
+      dockerfile: Dockerfile
+    volumes:
+      - "dbdata:/var/lib/postgresql/data"
+    env_file:
+      - env_file
+    networks:
+      - db_nw
+  ratesapp:
+    build: 
+      context: ./webapp
+      dockerfile: Dockerfile
+    env_file:
+      - env_file
+    volumes:
+      - .:/opt/services/ratesapp/src
+    networks:
+      - db_nw
+      - web_nw
+    depends_on:
+      - db
+  nginx:
+    image: "nginx:1.13.5"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    networks:
+      - web_nw
+    depends_on: 
+      - ratesapp
+networks:
+  db_nw:
+    driver: bridge
+  web_nw:
+    driver: bridge
+volumes:
+  dbdata:
