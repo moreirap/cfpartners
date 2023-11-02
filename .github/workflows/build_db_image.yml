@@ -21,8 +21,8 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}  
     
     - run: |
-        docker image build . --file database/Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners:${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners_dbcontainer:latest
+        docker image build --file database/Dockerfile ./database --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners_dbcontainer:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners_dbcontainer:${{ github.sha }}
     - run: |
-        docker image build . --file webapp/Dockerfile --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners:${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners_webappcontainer:latest
+        docker image build --file webapp/Dockerfile ./webapp --tag ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners_webappcontainer:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/cfpartners_webappcontainer:${{ github.sha }}
